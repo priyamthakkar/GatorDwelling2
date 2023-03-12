@@ -56,12 +56,16 @@ export default function Book() {
           boxShadow: 2,
           p: 2,
           height: 500,
+          backgroundImage: "url('dark_alight.png')",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
+          backgroundSize: "cover",
 
         }}
         
       >
         <Typography variant="h5" align="center" mb={2}>
-          Contact Us
+          Schedule a tour
         </Typography>
         <Divider sx={{ mb: 2 }} />
         <form onSubmit={handleSubmit}>
