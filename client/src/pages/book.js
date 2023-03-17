@@ -1,107 +1,167 @@
-import React, { useEffect, useState } from "react";
-import {
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Grid,
-  Toolbar,
-  Box,
-  Typography,
-} from "@mui/material";
-import MuiBox from "@mui/material/Box";
-import { styled } from "@mui/material/styles";
-import Filter from "../components/filter";
-import DwellingCard from "../components/card";
-import useService from "../services/homeService";
-import Loading from "../components/loading";
-import { GoogleMap, LoadScript } from "@react-google-maps/api";
+import React, { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
+import Divider from "@mui/material/Divider";
+import backgroundImage from "./assets/124.png";
 
-const Main = styled((props) => <MuiBox component="main" {...props} />)(
-  ({ theme }) => ({
-    marginLeft: 284,
-  })
-);
 
-const mapContainerStyle = {
-  width: "100%",
-  height: "100%",
-};
+export default function Book() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+  };
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    time: "",
+    message: "",
+    date: "",
+  });
 
-const center = {
-  lat: 40.73061,
-  lng: -73.935242,
-};
-
-const YOUR_API_KEY = "AIzaSyDKLPXnCEYJsHJBAHTLI4MP3Zy0m56k_BY";
-
-export default function Home() {
-  const [dwellings, loading, setDwellings, recovery] = useService();
-  const [sortby, setSortby] = useState("Reviews");
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(formData);
+    setFormData({
+      name: "",
+      email: "",
+      message: "",
+    });
+    navigate("/success");
+  };
 
   return (
-    <>
-      <Filter dwellings={dwellings} setDwellings={setDwellings} />
-      <Main>
-        {loading ? (
-          <Loading />
-        ) : (
-          <Grid container>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: "90vh",
+        paddingTop: "10vh",
+        backgroundColor: "#f5f5f5",
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      <Box
+        sx={{
+          width: 400,
+          backgroundColor: "background.paper",
+          boxShadow: 2,
+
+          p: 2,
+          borderRadius: 2,
+        }}
+      >
+        <Typography
+  variant="h5"
+  align="center"
+  mb={2}
+  sx={{ fontFamily: "'Roboto', sans-serif" }}
+>
+  Schedule a tour
+</Typography>
+        <Divider sx={{ mb: 2 }} />
+        <form onSubmit={handleSubmit}>
+          <Grid container spacing={2}>
             <Grid item xs={12}>
-              <Toolbar />
+              <TextField
+                fullWidth
+                required
+                label="Name"
+                name="name"
+                value={formData.name}
+                onChange={handleInputChange}
+                variant="outlined"
+              />
             </Grid>
-            <Grid item xs={6} sx={{ padding: 2 }}>
-              <Grid container spacing={3}>
-                <Grid item xs={12}>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "flex-end",
-                      width: "100%",
-                    }}
-                  >
-                    <FormControl size="small">
-                      <InputLabel>Sort By</InputLabel>
-                      <Select
-                        value={sortby}
-                        label="Sort By"
-                        onChange={(e) => setSortby(e.target.value)}
-                      >
-                        <MenuItem value={"Reviews"}>Reviews</MenuItem>
-                        <MenuItem value={"Newest"}>Newest</MenuItem>
-                        <MenuItem value={"Oldest"}>Oldest</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </Box>
-                </Grid>
-                {dwellings.length > 0 ? (
-                  dwellings.map((d) => (
-                    <Grid item xs={6}>
-                      <DwellingCard dwelling={d} />
-                    </Grid>
-                  ))
-                ) : (
-                  <Typography
-                    variant="h5"
-                    sx={{ minHeight: 445, marginLeft: 10, marginTop: 5 }}
-                  >
-                    No results that match your search
-                  </Typography>
-                )}
-              </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                required
+                label="Email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                variant="outlined"
+              />
             </Grid>
-            <Grid item xs={6}>
-              <LoadScript googleMapsApiKey={YOUR_API_KEY}>
-                <GoogleMap
-                  mapContainerStyle={mapContainerStyle}
-                  zoom={12}
-                  center={center}
-                ></GoogleMap>
-              </LoadScript>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                required
+                label="Phone"
+                name="phone"
+                value={formData.phone}
+                onChange={handleInputChange}
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                required
+                label="Date"
+                name="date"
+                type="date"
+                value={formData.date}
+                onChange={handleInputChange}
+                variant="outlined"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                required
+                label="Time"
+                name="time"
+                type="time"
+                value={formData.time}
+                onChange={handleInputChange}
+                variant="outlined"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </Grid>
+          
+
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                required
+                multiline
+                rows={4}
+                label="Message"
+                name="message"
+                value={formData.message}
+                onChange={handleInputChange}
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+                fullWidth
+              >
+                Submit
+              </Button>
             </Grid>
           </Grid>
-        )}
-      </Main>
-    </>
+        </form>
+      </Box>
+      </div>
   );
 }
