@@ -1,162 +1,107 @@
-import React, { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Grid";
-import Divider from "@mui/material/Divider";
-import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
+import React, { useEffect, useState } from "react";
+import {
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Grid,
+  Toolbar,
+  Box,
+  Typography,
+} from "@mui/material";
+import MuiBox from "@mui/material/Box";
+import { styled } from "@mui/material/styles";
+import Filter from "../components/filter";
+import DwellingCard from "../components/card";
+import useService from "../services/homeService";
+import Loading from "../components/loading";
+import { GoogleMap, LoadScript } from "@react-google-maps/api";
 
+const Main = styled((props) => <MuiBox component="main" {...props} />)(
+  ({ theme }) => ({
+    marginLeft: 284,
+  })
+);
 
+const mapContainerStyle = {
+  width: "100%",
+  height: "100%",
+};
 
+const center = {
+  lat: 40.73061,
+  lng: -73.935242,
+};
 
-export default function Book() {
-  // Get the ID of the apartment complex from the URL
-  const { id } = useParams();
+const YOUR_API_KEY = "AIzaSyDKLPXnCEYJsHJBAHTLI4MP3Zy0m56k_BY";
 
-  // Use the useNavigate hook to redirect the user after form submission
-  const navigate = useNavigate();
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
-  };
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-  
-    time: "",
-    message: "",
-  });
-  
-  
-
-  
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Send the form data to the server
-    console.log(formData);
-    // Reset the form data
-    setFormData({
-      name: "",
-      email: "",
-      message: "",
-    });
-    // Navigate to the success page
-    navigate("/success");
-  };
-
-  function BoxSx() {
-    return (
-      <Box
-        sx={{
-          width: 400,
-          backgroundColor: "background.default",
-          boxShadow: 2,
-          p: 2,
-          height: 500,
-          backgroundImage: "url('dark_alight.png')",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center",
-          backgroundSize: "cover",
-
-        }}
-        
-      >
-        <Typography variant="h5" align="center" mb={2}>
-          Schedule a tour
-        </Typography>
-        <Divider sx={{ mb: 2 }} />
-        <form onSubmit={handleSubmit}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                required
-                label="Name"
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                variant="outlined"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                required
-                label="Email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                variant="outlined"
-              />
-            </Grid>
-         
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                required
-                label="Phone"
-                name="Phone"
-                value={formData.phone}
-                onChange={handleInputChange}
-                variant="outlined"
-              />
-            </Grid>
-          
-           
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                required
-                label="Time"
-                name="time"
-                type="time"
-                value={formData.time}
-                onChange={handleInputChange}
-                variant="outlined"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                required
-                multiline
-                rows={4}
-                label="Message"
-                name="message"
-                value={formData.message}
-                onChange={handleInputChange}
-                variant="outlined"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Button
-                variant="contained"
-                color="primary"
-                type="submit"
-                fullWidth
-              >
-                Submit
-              </Button>
-            </Grid>
-          </Grid>
-        </form>
-      </Box>
-    );
-  }
+export default function Home() {
+  const [dwellings, loading, setDwellings, recovery] = useService();
+  const [sortby, setSortby] = useState("Reviews");
 
   return (
-    <div>
-      <Typography variant="h4" align="center" mb={4}>
-        Book an Apartment at Complex {id}
-      </Typography>
-      <BoxSx />
-    </div>
+    <>
+      <Filter dwellings={dwellings} setDwellings={setDwellings} />
+      <Main>
+        {loading ? (
+          <Loading />
+        ) : (
+          <Grid container>
+            <Grid item xs={12}>
+              <Toolbar />
+            </Grid>
+            <Grid item xs={6} sx={{ padding: 2 }}>
+              <Grid container spacing={3}>
+                <Grid item xs={12}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "flex-end",
+                      width: "100%",
+                    }}
+                  >
+                    <FormControl size="small">
+                      <InputLabel>Sort By</InputLabel>
+                      <Select
+                        value={sortby}
+                        label="Sort By"
+                        onChange={(e) => setSortby(e.target.value)}
+                      >
+                        <MenuItem value={"Reviews"}>Reviews</MenuItem>
+                        <MenuItem value={"Newest"}>Newest</MenuItem>
+                        <MenuItem value={"Oldest"}>Oldest</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Box>
+                </Grid>
+                {dwellings.length > 0 ? (
+                  dwellings.map((d) => (
+                    <Grid item xs={6}>
+                      <DwellingCard dwelling={d} />
+                    </Grid>
+                  ))
+                ) : (
+                  <Typography
+                    variant="h5"
+                    sx={{ minHeight: 445, marginLeft: 10, marginTop: 5 }}
+                  >
+                    No results that match your search
+                  </Typography>
+                )}
+              </Grid>
+            </Grid>
+            <Grid item xs={6}>
+              <LoadScript googleMapsApiKey={YOUR_API_KEY}>
+                <GoogleMap
+                  mapContainerStyle={mapContainerStyle}
+                  zoom={12}
+                  center={center}
+                ></GoogleMap>
+              </LoadScript>
+            </Grid>
+          </Grid>
+        )}
+      </Main>
+    </>
   );
 }
-
