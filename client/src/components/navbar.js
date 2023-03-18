@@ -9,6 +9,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import PersonIcon from '@mui/icons-material/PersonRounded';
 import HomeIcon from '@mui/icons-material/HomeRounded';
+import ChatGPTButton from './ChatGPTButton';
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
@@ -32,6 +33,7 @@ export default function ButtonAppBar() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} color="primary">
             Gator Dwelling
           </Typography>
+          <ChatGPTButton />
           <Button color="inherit" size="large">My Reviews</Button>
           <Button color="inherit" size="large">Saved Homes</Button>
           <Button color="inherit" size="large">Messages</Button>
