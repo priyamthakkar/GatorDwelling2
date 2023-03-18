@@ -42,7 +42,7 @@ const ChatGPTButton = () => {
       }, {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer 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',
+          'Authorization': 'Bearer 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',
         },
       });
       const aiMessage = {
@@ -55,6 +55,7 @@ const ChatGPTButton = () => {
       console.log(error);
     }
   };
+  
   
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
@@ -77,7 +78,7 @@ const ChatGPTButton = () => {
           </div>
           <div className="chat-body">
             {messages.slice().reverse().map((message, index) => (
-              <div key={index} className={`message message-${message.sender}`}>
+              <div key={index} className={`message message-${message.sender} ${message.sender === 'user' ? 'message-user' : 'message-ai'}`}>
                 {message.text}
               </div>
             ))}
