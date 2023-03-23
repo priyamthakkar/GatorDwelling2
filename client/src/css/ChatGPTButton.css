@@ -39,7 +39,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  background-color: #00BFFF;
+  background-color: #85B934;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   color: #FFF;
@@ -100,11 +100,11 @@
   border-radius: 20px;
   border: none;
   font-size: 16px;
-  background-color: #00BFFF;
+  background-color: #85B934;
   color: #FFF;
   cursor: pointer;
 }
 
 .chat-footer button:hover {
-  background-color: #0080FF;
+  background-color: #3e5911;
 }
