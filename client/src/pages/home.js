@@ -29,9 +29,10 @@ const mapContainerStyle = {
 };
 
 const center = {
-  lat: 40.73061,
-  lng: -73.935242,
+  lat: 29.6516,
+  lng: -82.3248,
 };
+
 
 const YOUR_API_KEY = "AIzaSyDKLPXnCEYJsHJBAHTLI4MP3Zy0m56k_BY";
 

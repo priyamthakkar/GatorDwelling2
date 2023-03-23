@@ -30,4 +30,20 @@ router.route("/dwellings/:id").get(async function (req, res) {
     }
 });
 
+router.route("/apikey").get(async function (req, res) {
+    try {
+        const fs = require("fs");
+        const apikey = await fs.readFile("./apikey.txt", {encoding: 'utf8'}, (err, data) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
+            console.log(data);
+            res.send(data);
+        });
+    } catch {
+        res.status(400).type('json').send("failed to fetch apikey")
+    }
+})
+
 module.exports = router;

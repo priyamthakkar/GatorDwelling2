@@ -6,6 +6,7 @@ const ChatGPTButton = () => {
   const [showChat, setShowChat] = useState(false);
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState('');
+  const [apiKey, setApiKey] = useState('');
   const inputRef = useRef(null);
 
   useEffect(() => {
@@ -13,6 +14,20 @@ const ChatGPTButton = () => {
       inputRef.current.focus();
     }
   }, [showChat]);
+
+  useEffect(() => {
+    const getApiKey = async () => {
+      try {
+        const res = await fetch(`http://localhost:5000/apikey`);
+        const data = await res.text();
+        console.log(data);
+        setApiKey(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getApiKey();
+  }, []);
 
   const handleClick = () => {
     setShowChat(true);
@@ -33,16 +48,19 @@ const ChatGPTButton = () => {
     };
     setInputValue('');
     try {
-      const response = await axios.post('https://api.openai.com/v1/engines/davinci/completions', {
+      const response = await axios.post('https://api.openai.com/v1/engines/text-davinci-003/completions', {
         prompt: userMessage.text + '\nResponse:',
         max_tokens: 150,
-        temperature: 0.7,
+        temperature: 0.9,
         n: 1,
         stop: '\n',
+        top_p: 1,
+        frequency_penalty: 0.0,
+        presence_penalty: 0.6,
       }, {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer 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',
+          'Authorization': 'Bearer ' + apiKey,
         },
       });
       const aiMessage = {
@@ -62,6 +80,7 @@ const ChatGPTButton = () => {
       handleSendMessage();
     }
   }
+
 
   return (
     <div className="chat-container">
