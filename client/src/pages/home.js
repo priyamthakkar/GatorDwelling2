@@ -15,7 +15,7 @@ import Filter from "../components/filter";
 import DwellingCard from "../components/card";
 import useService from "../services/homeService";
 import Loading from "../components/loading";
-import { GoogleMap, LoadScript } from "@react-google-maps/api";
+import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 
 const Main = styled((props) => <MuiBox component="main" {...props} />)(
   ({ theme }) => ({
@@ -31,6 +31,52 @@ const mapContainerStyle = {
 const center = {
   lat: 29.6516,
   lng: -82.3248,
+<<<<<<< HEAD
+=======
+};
+
+const position = {
+  lat: 29.636611,
+  lng: -82.385114,
+  title: "The ridge"
+};
+const position2 = {
+  lat: 29.6578,
+  lng: -82.3383,
+  title: "Alight Gainesville"
+};
+const position3 = {
+  lat: 29.636344,
+  lng: -82.361255,
+  title: "University club apartments",
+};
+const position4 = {
+  lat: 29.648981,
+  lng: -82.328169,
+  title: "Social 28",
+};
+const position5 = {
+  lat: 29.647769,
+  lng: -82.331044,
+  title: "royal gainesville",
+};
+const position6 = {
+  lat: 29.650021,
+  lng: -82.341122,
+  title: "Lark gainesville",
+};
+
+const position7 = {
+  lat: 29.644097,
+  lng: -82.341101,
+  title: "The Standard",
+};
+
+const position8 = {
+  lat: 29.639414,
+  lng: -82.368559,
+  title: "Lexington Crossing",
+>>>>>>> 8bfcd7153d34f75357f72cf568065283cb339480
 };
 
 
@@ -97,7 +143,16 @@ export default function Home() {
                   mapContainerStyle={mapContainerStyle}
                   zoom={12}
                   center={center}
-                ></GoogleMap>
+                >
+                  <Marker position={position} />
+                  <Marker position={position2} />
+                  <Marker position={position3} />
+                  <Marker position={position4} title={position4.title} />
+  <Marker position={position5} title={position5.title} />
+  <Marker position={position6} title={position6.title} />
+  <Marker position={position7} title={position7.title} />
+  <Marker position={position8} title={position8.title} />
+                </GoogleMap>
               </LoadScript>
             </Grid>
           </Grid>
