@@ -7,6 +7,8 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Divider from "@mui/material/Divider";
 import backgroundImage from "./assets/124.png";
+import SuccessScreen from "./SuccessScreen";
+
 
 
 export default function Book() {
@@ -24,7 +26,7 @@ export default function Book() {
     message: "",
     date: "",
   });
-
+  const [showSuccessScreen, setShowSuccessScreen] = useState(false);
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(formData);
@@ -33,7 +35,7 @@ export default function Book() {
       email: "",
       message: "",
     });
-    navigate("/success");
+    setShowSuccessScreen(true);
   };
 
   return (
@@ -50,6 +52,9 @@ export default function Book() {
         backgroundPosition: "center",
       }}
     >
+      {showSuccessScreen ? (
+      <SuccessScreen />
+    ) : (
       <Box
         sx={{
           width: 400,
@@ -162,8 +167,8 @@ export default function Book() {
           </Grid>
         </form>
       </Box>
+       )}
       </div>
   );
 }
-
 
