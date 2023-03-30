@@ -31,8 +31,6 @@ const mapContainerStyle = {
 const center = {
   lat: 29.6516,
   lng: -82.3248,
-<<<<<<< HEAD
-=======
 };
 
 const position = {
@@ -76,7 +74,6 @@ const position8 = {
   lat: 29.639414,
   lng: -82.368559,
   title: "Lexington Crossing",
->>>>>>> 8bfcd7153d34f75357f72cf568065283cb339480
 };
 
 
