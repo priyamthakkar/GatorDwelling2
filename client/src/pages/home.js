@@ -25,7 +25,7 @@ const Main = styled((props) => <MuiBox component="main" {...props} />)(
 
 const mapContainerStyle = {
   width: "100%",
-  height: "200vh",
+  height: "100%",
 };
 
 const center = {
