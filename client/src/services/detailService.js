@@ -22,14 +22,14 @@ export default () => {
 
   useEffect(() => {
     const fetchDwelling = async () => {
-        const res = await fetch(`http://localhost:5000/dwellings/${id}`);
+        const res = await fetch(`https://react-app-fxy8.onrender.com:10000/dwellings/${id}`);
         const data = await res.json();
         setDwelling(data);
         setLoading(false);
     };
 
     const fetchReviews = async () => {
-      const res = await fetch(`http://localhost:5000/reviews/${id}`);
+      const res = await fetch(`https://react-app-fxy8.onrender.com:10000/reviews/${id}`);
       const data = await res.json();
       let ov = 0, cl = 0, va = 0, lo = 0, ma = 0, no = 0, pa = 0, bu = 0, sa = 0, wa = 0, itn = 0;
       let len = data.length;
