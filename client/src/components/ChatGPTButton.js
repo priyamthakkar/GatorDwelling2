@@ -18,7 +18,7 @@ const ChatGPTButton = () => {
   useEffect(() => {
     const getApiKey = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/apikey`);
+        const res = await fetch(`https://react-app-fxy8.onrender.com/apikey`);
         const data = await res.text();
         console.log(data);
         setApiKey(data);
